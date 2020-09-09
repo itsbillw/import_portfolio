@@ -8,8 +8,16 @@
 
   {% for table in tables %}
   <div class="row mb-3">
-    <div class="col-md-8 themed-grid-col">{{table[0]}}</div>
-    <div class="col-md-4 themed-grid-col">.col-md-4</div>
+    <div class="col-md-9 themed-grid-col">{{table[0]}}</div>
+    <div class="col-md-1 themed-grid-col" style="text-align:center">
+      <span data-feather="edit"></span>
+    </div>
+    <div class="col-md-1 themed-grid-col" style="text-align:center">
+      <span data-feather="download"></span>
+    </div>
+    <div class="col-md-1 themed-grid-col" style="text-align:center">
+      <span data-feather="trash"></span>
+    </div>
   </div>
   {% endfor %}
 
