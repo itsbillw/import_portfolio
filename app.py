@@ -1,11 +1,11 @@
-from flask import Flask, redirect, render_template, request, url_for
+from flask import Flask, make_response, redirect, render_template, request, url_for
 import pandas as pd
 from sqlalchemy import create_engine
 
 
 app = Flask(__name__)
 
-
+ALLOWED_EXTENSIONS = {"csv", "xls", "xlsx"}
 engine = create_engine('sqlite:///saved_loader_files.sqlite3', echo=False)
 
 
@@ -22,20 +22,46 @@ def view_table(table_name):
     return render_template('view.html',  tables=[df.to_html(index=False, classes='data')], title=table_title)
 
 
-
 @app.route('/import', methods=['GET', 'POST'])
 def new_import():
+    # TODO:
+    # 1. Check file extension - reject anything other than csv, xls, xlsx
+    # 2. Parse file into loader format
     if request.method == 'POST':
-        df = pd.read_csv(request.files.get('file'))
+        import_file = request.files.get('file')
         file_name = request.files['file'].filename.rsplit('.', 1)[0]
-        df.to_sql(file_name, con=engine, if_exists='replace')
-        tables = engine.execute("select name from sqlite_master where type = 'table'").fetchall()
+        file_extension = request.files['file'].filename.rsplit('.', 1)[1]
+
+        if file_extension in ALLOWED_EXTENSIONS:
+            if file_extension == "csv":
+                df = pd.read_csv(import_file)
+            else:
+                df = pd.read_excel(import_file)
+            df.to_sql(file_name, con=engine, if_exists='replace')
+        else:
+            # TODO - flash message for error
+            print("Unsupported filetype")
         return redirect(url_for('home'))
     return render_template("import.html")
 
 
+@app.route('/download/<table_name>', methods=['GET', 'POST'])
+def download_table(table_name):
+    df = pd.read_sql("select * from {}".format(table_name), con=engine, index_col="index")
+    resp = make_response(df.to_csv(index=False))
+    resp.headers["Content-Disposition"] = "attachment; filename={}.csv".format(table_name)
+    resp.headers["Content-Type"] = "text/csv"
+    return resp
+
+
+@app.route('/delete/<table_name>', methods=['GET', 'POST'])
+def delete_one_table(table_name):
+    engine.execute("DROP TABLE {}".format(table_name))
+    return redirect(url_for('home'))
+
+
 @app.route('/delete', methods=['GET', 'POST'])
-def delete_tables():
+def delete_all_tables():
     if request.method == 'POST':
         tables = engine.execute("select name from sqlite_master where type = 'table'").fetchall()
         for table in tables:

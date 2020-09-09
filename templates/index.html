@@ -15,10 +15,14 @@
       <span data-feather="edit"></span>
     </div>
     <div class="col-md-1 themed-grid-col" style="text-align:center">
-      <span data-feather="download"></span>
+      <a href="{{ url_for('download_table', table_name=table[0]) }}" class="alert-link">
+        <span data-feather="download"></span>
+      </a>
     </div>
     <div class="col-md-1 themed-grid-col" style="text-align:center">
-      <span data-feather="trash"></span>
+      <a href="{{ url_for('delete_one_table', table_name=table[0]) }}" class="alert-link">
+        <span data-feather="trash"></span>
+      </a>
     </div>
   </div>
   {% endfor %}
