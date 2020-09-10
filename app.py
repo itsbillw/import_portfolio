@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 ALLOWED_EXTENSIONS = {"csv", "xls", "xlsx"}
-engine = create_engine('sqlite:///saved_loader_files.sqlite3', echo=False)
+engine = create_engine('sqlite:///data/saved_loader_files.sqlite3', echo=False)
 
 
 @app.route('/')
