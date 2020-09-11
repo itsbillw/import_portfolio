@@ -51,6 +51,12 @@ def new_import():
     return render_template("import.html")
 
 
+@app.route('/combine', methods=['GET'])
+def combine_tables():
+    tables = engine.execute("select name from sqlite_master where type = 'table'").fetchall()
+    return render_template("combine.html", tables=tables)
+
+
 @app.route('/download/<table_name>', methods=['GET', 'POST'])
 def download_table(table_name):
     df = pd.read_sql("select * from {}".format(table_name), con=engine, index_col="index")

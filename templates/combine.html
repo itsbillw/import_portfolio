@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+
+  <select name=tables method="GET" action="/">
+    {% for table in tables %}
+    <option value="{{table[0]}}" SELECTED>{{table[0]}}</option>"
+    {% endfor %}
+  </select>
+
+</main>
+
+{% endblock %}
