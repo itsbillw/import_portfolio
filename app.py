@@ -32,15 +32,15 @@ def home():
     if request.method == 'POST':
         table_list = request.form.getlist('get_table')
         for table in table_list:
-            engine.execute("DROP TABLE {}".format(table))
+            engine.execute("DROP TABLE '{}'".format(table))
         return redirect(url_for('home'))
-        
+
     return render_template("index.html", tables=tables)
 
 
 @app.route('/view/<table_name>', methods=("POST", "GET"))
 def view_table(table_name):
-    df = pd.read_sql("select * from {}".format(table_name), con=engine)
+    df = pd.read_sql("select * from '{}'".format(table_name), con=engine)
     table_title = table_name.replace("_"," ").title()
     return render_template('view.html',  table=df.to_html(index=False, classes='data'), title=table_title)
 
@@ -93,7 +93,7 @@ def combine_tables():
 
 @app.route('/download/<table_name>', methods=['GET', 'POST'])
 def download_table(table_name):
-    df = pd.read_sql("select * from {}".format(table_name), con=engine)
+    df = pd.read_sql("select * from '{}'".format(table_name), con=engine)
     resp = make_response(df.to_csv(index=False))
     resp.headers["Content-Disposition"] = "attachment; filename={}.csv".format(table_name)
     resp.headers["Content-Type"] = "text/csv"
@@ -102,7 +102,7 @@ def download_table(table_name):
 
 @app.route('/delete/<table_name>', methods=['GET', 'POST'])
 def delete_one_table(table_name):
-    engine.execute("DROP TABLE {}".format(table_name))
+    engine.execute("DROP TABLE '{}'".format(table_name))
     return redirect(url_for('home'))
 
 
@@ -112,7 +112,7 @@ def delete_all_tables():
     if request.method == 'POST':
         table_list = request.form.getlist('get_table')
         for table in table_list:
-            engine.execute("DROP TABLE {}".format(table))
+            engine.execute("DROP TABLE '{}'".format(table))
         return redirect(url_for('home'))
     return render_template("delete.html", tables=tables)
 

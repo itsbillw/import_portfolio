@@ -7,14 +7,6 @@
 </div>
 
 <form method="POST">
-  <div class="input-group mb-3">
-    <div class="input-group-prepend">
-      <div class="input-group-text">
-        <input type="checkbox" id="selectall" name="selectall" onclick="toggle(this)" autocomplete="off" unchecked>
-      </div>
-    </div>
-    <label class="form-control" for="selectall">Select All</label>
-  </div>
   {% for table in tables %}
   <div class="input-group mb-3">
     <div class="input-group-prepend">
@@ -26,6 +18,7 @@
   </div>
   {% endfor %}
   <button type="submit" class="btn btn-danger">Delete Selected</button>
+  <input type="checkbox" id="selectall" name="selectall" onclick="toggle(this)" autocomplete="off" unchecked>Select All</input>
 </form>
 
 {% endblock %}

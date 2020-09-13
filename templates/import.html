@@ -6,10 +6,19 @@
   <h1 class="h2">New Import</h1>
 </div>
 
-<form method=post enctype=multipart/form-data>
-  <input type=file name=file>
-  <input type=submit value=Upload>
+<form method="POST" action="" enctype="multipart/form-data">
+  <p>
+    <div class="custom-file">
+      <input type="file" class="custom-file-input" name="file" id="myInput" aria-describedby="myInput">
+      <label class="custom-file-label" for="myInput">Choose file</label>
+    </div>
+  </p>
+  <!-- <div class="input-group-append">
+    <button type="submit" class="btn btn-outline-secondary" type="button" id="myInput">Button</button>
+  </div> -->
+  <p><input type="submit" class="btn btn-success btn-sm" value="Upload"></p>
 </form>
+
 {% with messages = get_flashed_messages() %}
   {% if messages %}
     <ul class=flashes>
