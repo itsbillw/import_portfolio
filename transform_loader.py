@@ -19,6 +19,6 @@ def loader_prep(df):
 def combine_loaders(dataframes):
     result = pd.DataFrame()
     for dataframe in dataframes:
-        result = result.append(pd.read_sql("select * from {}".format(dataframe), con=engine))
+        result = result.append(pd.read_sql("select * from '{}'".format(dataframe), con=engine))
     result = result.groupby(["ISIN","CURRENCY"]).sum().reset_index()
     return result
