@@ -2,29 +2,25 @@
 
 {% block content %}
 
-<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+<h3>
+  Combine
+</h3>
 
-  <h3>
-    Combine
-  </h3>
-
-  <form method="POST">
-    {% for table in tables %}
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <div class="input-group-text">
-          <input type="checkbox" name="get_table" value="{{table[0]}}">
-        </div>
+<form method="POST">
+  {% for table in tables %}
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <div class="input-group-text">
+        <input type="checkbox" name="get_table" value="{{table[0]}}">
       </div>
-      <label class="form-control">{{table[0]}}</label>
     </div>
-    {% endfor %}
-    <input type="text" class="form-control" name="table_name">
-    <button class="btn btn-primary btn-lg btn-block" type="submit">Combine</button>
-  </form>
+    <label class="form-control">{{table[0]}}</label>
+  </div>
+  {% endfor %}
+  <input type="text" class="form-control" name="table_name">
+  <button class="btn btn-primary btn-lg btn-block" type="submit">Combine</button>
+</form>
 
-  {{ combined_table|safe }}
-
-</main>
+{{ combined_table|safe }}
 
 {% endblock %}

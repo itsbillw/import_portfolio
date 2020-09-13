@@ -76,9 +76,10 @@ def combine_tables():
     tables = engine.execute("select name from sqlite_master where type = 'table'").fetchall()
     if request.method == 'POST':
         table_list = request.form.getlist('get_table')
-        df = combine_loaders(table_list)
         new_name = request.form.get('table_name')
-        df.to_sql(new_name, con=engine, if_exists='replace', index=False)
+        if len(table_list) >= 1 and new_name != '':
+            df = combine_loaders(table_list)
+            df.to_sql(new_name, con=engine, if_exists='replace', index=False)
         return redirect(url_for('home'))
     return render_template("combine.html", tables=tables)
 

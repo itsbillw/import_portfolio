@@ -2,31 +2,27 @@
 
 {% block content %}
 
-<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+<h2>Available Files</h2>
 
-  <h2>Available Files</h2>
-
-  {% for table in tables %}
-  <div class="row mb-3">
-    <div class="col-md-9 themed-grid-col">
-      <a href="{{ url_for('view_table', table_name=table[0]) }}" class="alert-link">{{table[0]}}</a>
-    </div>
-    <div class="col-md-1 themed-grid-col" style="text-align:center">
-      <span data-feather="edit"></span>
-    </div>
-    <div class="col-md-1 themed-grid-col" style="text-align:center">
-      <a href="{{ url_for('download_table', table_name=table[0]) }}" class="alert-link">
-        <span data-feather="download"></span>
-      </a>
-    </div>
-    <div class="col-md-1 themed-grid-col" style="text-align:center">
-      <a href="{{ url_for('delete_one_table', table_name=table[0]) }}" class="alert-link">
-        <span data-feather="trash"></span>
-      </a>
-    </div>
+{% for table in tables %}
+<div class="row mb-3">
+  <div class="col-md-9 themed-grid-col">
+    <a href="{{ url_for('view_table', table_name=table[0]) }}" class="alert-link">{{table[0]}}</a>
   </div>
+  <div class="col-md-1 themed-grid-col" style="text-align:center">
+    <span data-feather="edit"></span>
+  </div>
+  <div class="col-md-1 themed-grid-col" style="text-align:center">
+    <a href="{{ url_for('download_table', table_name=table[0]) }}" class="alert-link">
+      <span data-feather="download"></span>
+    </a>
+  </div>
+  <div class="col-md-1 themed-grid-col" style="text-align:center">
+    <a href="{{ url_for('delete_one_table', table_name=table[0]) }}" class="alert-link">
+      <span data-feather="trash"></span>
+    </a>
+  </div>
+</div>
   {% endfor %}
-
-</main>
 
 {% endblock %}
