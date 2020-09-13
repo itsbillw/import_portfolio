@@ -18,7 +18,10 @@
   </div>
   {% endfor %}
   <div class="input-group mb-3">
-    <input type="text" class="form-control" name="table_name" placeholder="Combined file name">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="basic-addon3">Combined file name </span>
+    </div>
+    <input type="text" class="form-control" name="table_name" id="basic-url" aria-describedby="basic-addon3">
   </div>
   <button class="btn btn-primary btn-lg btn-block" type="submit">Combine</button>
 </form>
