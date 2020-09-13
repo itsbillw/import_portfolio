@@ -65,10 +65,18 @@ def new_import():
             file_name = secure_filename(file.filename)
             filename = file_name.rsplit('.', 1)[0]
             file_extension = file_name.rsplit('.', 1)[1]
+
             if file_extension == "csv":
                 df = pd.read_csv(file)
+                if len(df.columns) == 1:
+                    df1 = df.iloc[:,0].str.split(pat=';', expand=True)
+                    df1.columns = df.columns[0].split(";")
+                    df = df1.copy()
+                    df["VALUE"] = df["VALUE"].str.replace(" ","")
+                    df["VALUE"] = pd.to_numeric(df["VALUE"], errors='coerce')
             else:
                 df = pd.read_excel(file)
+
             df = loader_prep(df)
             df.to_sql(filename, con=engine, if_exists='replace', index=False)
         else:
