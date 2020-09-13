@@ -4,11 +4,25 @@
 
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
 
-  <select name=tables method="GET" action="/">
+  <h3>
+    Combine
+  </h3>
+
+  <form method="POST">
     {% for table in tables %}
-    <option value="{{table[0]}}" SELECTED>{{table[0]}}</option>"
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <div class="input-group-text">
+          <input type="checkbox" name="get_table" value="{{table[0]}}">
+        </div>
+      </div>
+      <label class="form-control">{{table[0]}}</label>
+    </div>
     {% endfor %}
-  </select>
+    <button class="btn btn-primary btn-lg btn-block" type="submit">Combine</button>
+  </form>
+
+  {{ combined_table|safe }}
 
 </main>
 
