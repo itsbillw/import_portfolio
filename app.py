@@ -21,13 +21,20 @@ def allowed_file(filename):
 engine = create_engine('sqlite:///data/saved_loader_files.sqlite3', echo=False)
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def home():
     # TODO:
     # 1. Message when no files uploaded
     # 2. Edit imported file - map columns, replace values
 
     tables = engine.execute("select name from sqlite_master where type = 'table'").fetchall()
+
+    if request.method == 'POST':
+        table_list = request.form.getlist('get_table')
+        for table in table_list:
+            engine.execute("DROP TABLE {}".format(table))
+        return redirect(url_for('home'))
+        
     return render_template("index.html", tables=tables)
 
 
@@ -101,12 +108,13 @@ def delete_one_table(table_name):
 
 @app.route('/delete', methods=['GET', 'POST'])
 def delete_all_tables():
+    tables = engine.execute("select name from sqlite_master where type = 'table'").fetchall()
     if request.method == 'POST':
-        tables = engine.execute("select name from sqlite_master where type = 'table'").fetchall()
-        for table in tables:
-            engine.execute("DROP TABLE {}".format(table[0]))
+        table_list = request.form.getlist('get_table')
+        for table in table_list:
+            engine.execute("DROP TABLE {}".format(table))
         return redirect(url_for('home'))
-    return render_template("delete.html")
+    return render_template("delete.html", tables=tables)
 
 
 if __name__ == '__main__':

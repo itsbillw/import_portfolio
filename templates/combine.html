@@ -2,9 +2,9 @@
 
 {% block content %}
 
-<h3>
-  Combine
-</h3>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h1 class="h2">Combine Files</h1>
+</div>
 
 <form method="POST">
   {% for table in tables %}
@@ -17,7 +17,9 @@
     <label class="form-control">{{table[0]}}</label>
   </div>
   {% endfor %}
-  <input type="text" class="form-control" name="table_name">
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" name="table_name" placeholder="Combined file name">
+  </div>
   <button class="btn btn-primary btn-lg btn-block" type="submit">Combine</button>
 </form>
 
