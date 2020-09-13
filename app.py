@@ -77,7 +77,9 @@ def combine_tables():
     if request.method == 'POST':
         table_list = request.form.getlist('get_table')
         df = combine_loaders(table_list)
-        return render_template("combine.html", combined_table=df.to_html(index=False, classes='data'))
+        new_name = request.form.get('table_name')
+        df.to_sql(new_name, con=engine, if_exists='replace', index=False)
+        return redirect(url_for('home'))
     return render_template("combine.html", tables=tables)
 
 
